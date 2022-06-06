@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie app project</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5"> Movie info</h1>
+        <form id="movieForm" autocomplete="off">
+            <div class="form-group">
+                <label for="Movie">Movie Name</label>
+                <input class="form-control" type="text" id="movie" placeholder="Movie">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger btn-block mt-1">
+                    Search Movie
+                </button>
+            </div>
+        </form>
+        <div id="result"></div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+
+        var apikey = "fd7017a8";
+
+        $("#movieForm").submit(function(event){
+            event.preventDefault();
+
+            var  movie = $("#movie").val();
+
+            var result = "";
+            
+            var url = "http://www.omdbapi.com/?apikey="+apikey;
+           
+            $.ajax({
+               method:"GET",
+               url:url+ "&t=" + movie,
+               success: function (data){
+                   console.log(data);
+
+                   result = `
+                   
+                   <img style="float:left" class="img-thumbnail" width="200" height="200" src="${data.Poster}"/>
+                   <h2>${data.Title}</h2>
+                   <h2>${data.Released}</h2>
+                   <h2>${data.Runtime}</h2>
+                   <h2>${data.Genre}</h2>
+                   <h2>${data.Director}</h2>
+                   <h2>${data.Actors}</h2>
+                   `; 
+                   $("#result").html(result);
+
+               }
+            });
+        }); 
+    });
+</script>
+</html>
